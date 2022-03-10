@@ -121,10 +121,12 @@ const target = {
   //   return a + b
   // },
 }
+target.target = target
 const result = deepClone1(target)
 
-console.log(target)
+// console.log(target)
 console.log(result)
+console.log(JSON.parse(JSON.stringify(target))) // 循环引用会报错
 
 /**
  * 使用 while 改写 forEach
@@ -138,6 +140,7 @@ function forEach(arr, iterator) {
   }
   return arr
 }
+// NOTE: 可当做简易版深拷贝
 function deepClone2(target, map = new WeakMap()) {
   if (typeof target === "object") {
     const isArray = Array.isArray(target)
