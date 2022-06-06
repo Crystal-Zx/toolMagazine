@@ -1,10 +1,9 @@
-let start = new Date().getTime()
-console.log("start", start);
-setTimeout(() => {
-  console.log("timeout", new Date().getTime() - start);
-}, 2)
-setImmediate(() => {
-  console.log("immediate");
-})
-let end = new Date().getTime()
-console.log("end", end, end - start);
+let res = []
+var reversePrint = function (head) {
+  if (!head || !head.next) return res
+  if (head.next) {
+    return res.push(reversePrint(head.next))
+  }
+  console.log(res)
+  return res
+}
