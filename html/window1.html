@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>postMessage测试 - window1</title>
+</head>
+<body>
+  <p>window1</p>
+  <iframe id="openW" src="http://192.168.131.110:5500/html/window2.html" width="100%" height="100%" frameborder="0"></iframe>
+  <script>
+    window.onload = function () {
+      const openW = document.getElementById("openW").contentWindow
+      console.log(openW)
+      openW.postMessage({
+        name: 'xx',
+        age: 18
+      }, '*')
+      // const openW = window.open('http://192.168.131.110:5500/html/window2.html')
+      // console.log(openW)
+      
+    }
+    // 监听跨域请求的返回    
+    window.addEventListener("message", function(event) {        
+      console.log(event, event.data);    
+    }, false);
+  </script>
+</body>
+</html>

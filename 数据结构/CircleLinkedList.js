@@ -38,10 +38,9 @@ CircleLinkedList.prototype.removeAt = function (idx) {
     if (len === 1) {
       this.head = undefined
     } else {
+      const tail = this.getElemAt(len - 1) // WARNING: tail 的获取一定要在 this.head 被修改之前
       this.head = this.head.next
-      const tail = this.getElemAt(len - 1)
       tail.next = this.head
-      console.log("==> tail", len, tail)
     }
   } else {
     prevNode = this.getElemAt(idx - 1)
@@ -56,8 +55,4 @@ cl.insert(7, 0)
 cl.insert(1, 0)
 cl.insert(4, cl.size())
 console.log(cl.removeAt(0))
-console.log(cl.getElemAt(0).next.next)
-// console.log(cl.getElemAt(1))
-// console.log(cl.getElemAt(2))
-// console.log(cl.getElemAt(3))
-// console.log(cl.getElemAt(4))
+console.log(cl.getElemAt(0), cl.size())
