@@ -40,7 +40,6 @@ function cloneOtherType(target, type) {
 /** NOTE: 深拷贝
  * 需要考虑 target 的类型：分为可遍历类型和不可遍历类型两种
  * 可遍历类型：set、map、object、array、arguments
- *
  */
 function deepClone1(target, map = new WeakMap()) {
   // 1. 基础类型的值直接返回

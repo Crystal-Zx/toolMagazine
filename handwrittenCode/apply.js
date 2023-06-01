@@ -5,40 +5,39 @@
  **/
 
 Function.prototype._apply = function (context, arr) {
-  context = Object(context) || window
+  context = context ? Object(context) : window
 
   context.fn = this
   // 初始化参数列表
-  if(!arr) {
+  if (!arr) {
     return context.fn()
   }
 
   // 初始化参数列表
   // NOTE: 虽然 apply 接收一个数组类型的参数列表，但采用 eval 时传入 ‘kevin' 会被识别成一个变量，会导致报错： ReferenceError: Kevin is not defined
   var args = []
-  for(var i = 0, len = arr.length; i < len; i++) {
-    args.push('arr[' + i + ']')
+  for (var i = 0, len = arr.length; i < len; i++) {
+    args.push("arr[" + i + "]")
   }
   console.log(args, arr)
-  res = eval('context.fn(' + args + ')')
-  
+  res = eval("context.fn(" + args + ")")
+
   delete context.fn
   return res
-
 }
 
 // 以下为功能测试代码：
 var foo = {
-  value: 1
-};
+  value: 1,
+}
 
 function bar(name, age) {
   console.log("===name", name)
   console.log("===age", age)
-  console.log("===this.value", this.value);
+  console.log("===this.value", this.value)
 }
 
-bar._apply(foo, ['kevin', 18])
+bar._apply(foo, ["kevin", 18])
 // kevin
 // 18
 // 1

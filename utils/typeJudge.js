@@ -5,7 +5,7 @@
 /** -- 我的版本 */
 function typeJudge(val) {
   // NOTE: undefined == null 返回 true
-  if (val == null) return val + ""
+  if (val == null) return val + "" // NOTE: 兼容性考虑：在 IE6 中，null 和 undefined 会被 Object.prototype.toString 识别成 [object Object]！
   return typeof val === "object" || typeof val === "function"
     ? letterConvert(Object.prototype.toString.call(val))
     : typeof val
@@ -48,7 +48,7 @@ var isArray =
 // console.log(typeJudge(null))
 // console.log(typeJudge(Symbol("foo")))
 // console.log(typeJudge(2172141653n))
-// console.log(typeJudge(function () {}))
+console.log(typeJudge(function () {}))
 // console.log(typeJudge([]))
 // console.log(typeJudge({}))
 // console.log(typeJudge(new Date()))
