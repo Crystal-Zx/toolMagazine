@@ -23,29 +23,53 @@
 // 2. 找出所有可能的左端点后，我们需要找出右端点（右端点需要满足：① 大于左端点；② 保持右端点下标值最大）
 
 /**
+ * 方法一：两次遍历，单调栈找出左端点，然后倒序遍历前缀和数组找出右端点
  * @param {number[]} hours
  * @return {number}
  */
-var longestWPI = function (hours) {
+// var longestWPI1 = function (hours) {
+//   let ans = 0
+//   const s = [] // hours 的前缀和数组
+//   const st = [] // 存放所有可能成为左端点的s值的下标
+//   s[0] = 0
+//   st[0] = 0
+//   // 计算前缀和数组并更新可能得左端点值（单调递减栈）
+//   for (let i = 1; i <= hours.length; ++i) {
+//     // 注意这里需要 i <= hours.length
+//     s[i] = s[i - 1] + (hours[i - 1] > 8 ? 1 : -1)
+//     if (s[i] < s[st[st.length - 1]]) st.push(i)
+//   }
+//   // 找右端点的可能值。由于我们想找最大的右端点值（下标取最大），故从后往前遍历 s
+//   for (let i = s.length; i > 0; --i) {
+//     // 右端点下标最小值为1，所以 i > 0（不取0）
+//     while (st.length && s[i] > s[st[st.length - 1]]) {
+//       ans = Math.max(ans, i - st.pop())
+//     }
+//   }
+//   return ans
+// }
+
+/**
+ * 方法二：利用前缀和的连续性及数组项均为1、-1（使连续项之间差值均为1）特性
+ * @param {number[]} hours
+ * @return {number}
+ */
+var longestWPI2 = function (hours) {
+  const map = new Map()
+  const n = hours.length
+  const s = Array(n + 1)
   let ans = 0
-  const s = [] // hours 的前缀和数组
-  const st = [] // 存放所有可能成为左端点的s值的下标
   s[0] = 0
-  st[0] = 0
-  // 计算前缀和数组并更新可能得左端点值（单调递减栈）
-  for (let i = 1; i <= hours.length; ++i) {
-    // 注意这里需要 i <= hours.length
+  map.set(0, 0)
+  for (let i = 1; i <= n; ++i) {
+    let left
     s[i] = s[i - 1] + (hours[i - 1] > 8 ? 1 : -1)
-    if (s[i] < s[st[st.length - 1]]) st.push(i)
-  }
-  // 找右端点的可能值。由于我们想找最大的右端点值（下标取最大），故从后往前遍历 s
-  for (let i = s.length; i > 0; --i) {
-    // 右端点下标最小值为1，所以 i > 0（不取0）
-    while (st.length && s[i] > s[st[st.length - 1]]) {
-      ans = Math.max(ans, i - st.pop())
-    }
+    if (!map.get(s[i])) map.set(s[i], i)
+    if (map.get(s[i] - 1) === undefined) continue
+    left = s[i] > 0 ? 0 : map.get(s[i] - 1)
+    ans = Math.max(ans, i - left)
   }
   return ans
 }
-console.log(longestWPI([6, 6, 9])) // 1
-// console.log(longestWPI([9, 9, 6, 0, 6, 6, 9]))  // 3
+console.log(longestWPI2([6, 6, 9])) // 1
+// console.log(longestWPI2([9, 9, 6, 0, 6, 6, 9])) // 3
