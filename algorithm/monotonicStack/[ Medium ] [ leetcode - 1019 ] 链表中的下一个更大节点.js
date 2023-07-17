@@ -4,7 +4,7 @@
  * https://leetcode.cn/problems/next-greater-node-in-linked-list/
  */
 
-const { LinkedList } = require("../../LinkedList")
+const { LinkedList } = require("../../dataStructure/LinkedList")
 
 /**
  * Definition for singly-linked list.
