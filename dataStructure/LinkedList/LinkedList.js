@@ -11,13 +11,21 @@ function LinkedList(isEqualsFn) {
       return a == b
     })
 }
-function Node(elem) {
-  this.elem = elem
-  this.next = null
+// function Node(elem) {
+//   this.elem = (elem === undefined ? 0 : elem)
+//   this.next = null
+// }
+class ListNode {
+  elem
+  next
+  constructor(elem, next) {
+    this.elem = elem === undefined ? 0 : elem
+    this.next = next === undefined ? null : next
+  }
 }
 // 向链表尾部添加一个新的项
 LinkedList.prototype.append = function (elem) {
-  const node = new Node(elem)
+  const node = new ListNode(elem)
   let current
   if (!this.head) {
     this.head = node
@@ -33,7 +41,7 @@ LinkedList.prototype.append = function (elem) {
 // 向链表指定位置插入一个新的项
 LinkedList.prototype.insert = function (elem, idx) {
   if (idx < 0 || idx > this.length) return false
-  const current = new Node(elem)
+  const current = new ListNode(elem)
   if (idx === 0) {
     current.next = this.head
     this.head = current
@@ -92,7 +100,7 @@ LinkedList.prototype.size = function () {
 LinkedList.prototype.getHead = function () {
   return this.head
 }
-// NOTE: 由于链表的项使用了 Node 类，故需要重写继承自对象的 toString 方法，使其只输出元素的值
+// NOTE: 由于链表的项使用了 ListNode 类，故需要重写继承自对象的 toString 方法，使其只输出元素的值
 LinkedList.prototype.toString = function () {
   if (!this.head) return ""
   let current = this.head,
@@ -122,11 +130,11 @@ const l1 = new LinkedList()
 l1.append(3)
 l1.append(1)
 l1.append(5)
-// l1.append(2)
+l1.append(2)
 // console.log(l1.removeAt(1))
 // console.log(l1.insert(7, 0))
 // console.log(l1.insert(9, l1.size()))
 // console.log(l1.toString())
 
 exports.LinkedList = LinkedList
-exports.Node = Node
+exports.ListNode = ListNode

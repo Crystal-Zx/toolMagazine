@@ -1,4 +1,4 @@
-const { LinkedList, Node } = require("./LinkedList")
+const { LinkedList, ListNodeNode } = require("./LinkedList")
 const inheritPrototype = require("../工具函数/inheritPrototype")
 
 function CircleLinkedList(isEqualsFn) {
@@ -9,7 +9,7 @@ inheritPrototype(LinkedList, CircleLinkedList)
 CircleLinkedList.prototype.insert = function (elem, idx) {
   const len = this.length
   if (idx < 0 || idx > len) return false
-  const node = new Node(elem)
+  const node = new ListNode(elem)
   if (idx === 0) {
     if (!this.head) {
       this.head = node
