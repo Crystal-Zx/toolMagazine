@@ -84,11 +84,11 @@ class LinkedListQueue {
     return val
   }
 
-  peakFirst() {
+  peekFirst() {
     return !!this.#size ? this.#head.val : null
   }
 
-  peakLast() {
+  peekLast() {
     return !!this.#size ? this.#tail.val : null
   }
 }

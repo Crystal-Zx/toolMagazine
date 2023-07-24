@@ -39,7 +39,7 @@ class ArrayQueue {
 
   // 出队
   pop() {
-    const num = this.peak()
+    const num = this.peek()
     // 需要考虑 front 越界的情况
     this.#front = (this.#front + 1) % this.capacity
     // this.#queue[this.#front] = undefined  // 不需要特意处理，后续会被自动覆盖
@@ -48,7 +48,7 @@ class ArrayQueue {
   }
 
   // 访问队首元素
-  peak() {
+  peek() {
     if (this.isEmpty()) return new Error("队列为空")
     return this.#queue[this.#front]
   }

@@ -43,14 +43,14 @@ class LinkedListQueue {
 
   // 出队
   pop() {
-    const num = this.peak()
+    const num = this.peek()
     this.#head = this.#head.next
     this.#size--
     return num
   }
 
   // 访问队首元素
-  peak() {
+  peek() {
     if (!this.#size) return new Error("队列为空")
     return this.#head.val
   }
