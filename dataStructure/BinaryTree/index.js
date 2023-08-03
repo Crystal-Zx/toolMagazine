@@ -62,3 +62,5 @@ class AVLTreeNode {
     return child
   }
 }
+
+module.exports = { TreeNode }
