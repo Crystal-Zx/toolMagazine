@@ -38,7 +38,7 @@ function preorder(state, choices, res) {
     if (choice !== null && choice.val !== 3) {
       state.push(choice)
       preorder(state, [choice.left, choice.right], res)
-      state.pop(choice)
+      state.pop()
     }
   }
 }
