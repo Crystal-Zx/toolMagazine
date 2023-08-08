@@ -36,10 +36,10 @@ function backtrackII(state, choices, res, selected) {
     return
   }
 
-  let rowSelected = [] // 这里使用 Set 也可以
+  let rowSelected = new Set()
   choices.forEach((choice, i) => {
-    if (!rowSelected.includes(choice) && !selected.includes(i)) {
-      rowSelected.push(choice)
+    if (!rowSelected.has(choice) && !selected.includes(i)) {
+      rowSelected.add(choice)
       selected.push(i)
       state.push(choice)
       backtrackII(state, choices, res, selected)
