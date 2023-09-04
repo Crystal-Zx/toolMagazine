@@ -22,3 +22,5 @@ function levelOrder(root) {
   }
   return res
 }
+
+module.exports = levelOrder

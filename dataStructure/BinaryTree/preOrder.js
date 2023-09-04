@@ -1,3 +1,5 @@
+const { TreeNode } = require(".")
+
 /**
  * NOTE: 二叉树前序遍历（递归实现）：中左右
  * @param {*} node 二叉树当前遍历节点（从根节点 root 开始）
@@ -13,4 +15,22 @@ function preOrder(node, res = []) {
   res.push(node.val)
   preOrder(node.left, res)
   preOrder(node.right, res)
+  return res
 }
+
+// 构建树
+const root = new TreeNode(8)
+let curr = root
+root.left = new TreeNode(4)
+root.right = new TreeNode(12)
+curr = root.left
+curr.left = new TreeNode(2)
+curr.right = new TreeNode(6)
+curr = root.right
+curr.left = new TreeNode(10)
+curr.right = new TreeNode(14)
+module.exports = {
+  demoRoot: root,
+}
+
+console.log(preOrder(root))

@@ -1,3 +1,5 @@
+const { demoRoot } = require("./preOrder")
+
 /**
  * NOTE: 二叉树后序遍历（递归实现）：左右中
  * @param {*} node 二叉树当前遍历节点（从根节点 root 开始）
@@ -9,4 +11,7 @@ function postOrder(node, res = []) {
   postOrder(node.left, res)
   postOrder(node.right, res)
   res.push(node.val)
+  return res
 }
+
+console.log(postOrder(demoRoot))
