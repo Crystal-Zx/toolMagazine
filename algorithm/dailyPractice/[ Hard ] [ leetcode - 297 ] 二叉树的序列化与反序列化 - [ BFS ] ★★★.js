@@ -8,14 +8,13 @@ const { TreeNode } = require("../../dataStructure/BinaryTree/index")
  * }
  */
 
-const root = new TreeNode(8)
-root.left = new TreeNode(4)
-root.right = new TreeNode(12)
-let curr = root.left
-curr.left = new TreeNode(2)
-curr = root.right
-curr.left = new TreeNode(10)
-curr.right = new TreeNode(14)
+const root = new TreeNode(1)
+root.left = new TreeNode(2)
+root.right = new TreeNode(3)
+let curr = root
+curr = curr.right
+curr.left = new TreeNode(4)
+curr.right = new TreeNode(5)
 
 /**
  * Encodes a tree to a single string.
@@ -24,16 +23,19 @@ curr.right = new TreeNode(14)
  * @return {string}
  */
 var serialize = function (root) {
-  if (!root) return ""
+  // if (!root) return ""
   const queue = [root],
     res = []
 
   while (queue.length) {
     const node = queue.shift()
-
-    res.push(node.val)
-    node.left && queue.push(node.left)
-    node.right && queue.push(node.right)
+    if (node) {
+      res.push(node.val)
+      queue.push(node.left)
+      queue.push(node.right)
+    } else {
+      res.push("X")
+    }
   }
   return res.join(",")
 }
@@ -45,7 +47,7 @@ var serialize = function (root) {
  * @return {TreeNode}
  */
 var deserialize = function (data) {
-  if (!data) return null
+  if (data === "X") return null
   const list = data.split(",")
   const root = new TreeNode(list[0])
   const queue = [root]
@@ -53,12 +55,21 @@ var deserialize = function (data) {
   let cursor = 1
   while (cursor < list.length) {
     const node = queue.shift()
+    const leftVal = list[cursor]
+    const rightVal = list[cursor + 1]
 
-    if (list[cursor + 1] < node.val) {
-      const leftNode = new TreeNode(list[cursor++])
+    if (leftVal !== "X") {
+      const leftNode = new TreeNode(leftVal)
       node.left = leftNode
       queue.push(leftNode)
     }
+
+    if (rightVal !== "X") {
+      const rightNode = new TreeNode(rightVal)
+      node.right = rightNode
+      queue.push(rightNode)
+    }
+    cursor += 2
   }
   return root
 }
@@ -70,4 +81,4 @@ var deserialize = function (data) {
 
 const res = serialize(root)
 console.log("==> 序列化： ", res)
-// console.log("==> 反序列化： ", deserialize(res))
+console.log("==> 反序列化： ", deserialize(res))
