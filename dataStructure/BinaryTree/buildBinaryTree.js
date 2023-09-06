@@ -24,7 +24,7 @@ function dfs(preorder, inorder, hmap, i, l, r) {
 // TEST:
 const preorder = [3, 9, 2, 1, 7]
 const inorder = [9, 3, 1, 2, 7]
-console.log(buildTree(preorder, inorder))
+// console.log(buildTree(preorder, inorder))
 
 function buildTree(preorder, inorder) {
   const hmap = new Map()
@@ -40,3 +40,5 @@ function buildTree(preorder, inorder) {
  * 1. 时间复杂度：每一个节点初始化（执行一个dfs函数）花费 O(1) 的时间，一共 n 个节点，故时间复杂度为 O(n)
  * 2. 空间复杂度：哈希表使用 O(n) 空间，当树退化为链表时消耗 O(n) 栈帧空间，最佳情况下是 O(logn)；总体来说是 O(n)
  */
+
+module.exports = buildTree
