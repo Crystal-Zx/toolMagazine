@@ -75,21 +75,21 @@ class GraphAdjList {
 }
 
 // TEST:
-// const v1 = new Vertex(1)
-// const v3 = new Vertex(3)
-// const v2 = new Vertex(2)
-// const v5 = new Vertex(5)
-// const v4 = new Vertex(4)
-// const graph = new GraphAdjList([
-//   [v1, v5],
-//   [v1, v3],
-//   [v2, v5],
-//   [v2, v3],
-//   [v4, v5],
-//   [v4, v2],
-// ])
-// graph.print()
-// console.log(graph.adjList)
+const v1 = new Vertex(1)
+const v3 = new Vertex(3)
+const v2 = new Vertex(2)
+const v5 = new Vertex(5)
+const v4 = new Vertex(4)
+const graph = new GraphAdjList([
+  [v1, v5],
+  [v1, v3],
+  [v2, v5],
+  [v2, v3],
+  [v4, v5],
+  [v4, v2],
+])
+graph.print()
+console.log(graph.adjList)
 
 module.exports = {
   GraphAdjList,
