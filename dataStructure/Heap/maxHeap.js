@@ -98,6 +98,8 @@ class MaxHeap {
   }
 }
 
+module.exports = MaxHeap
+
 /* 建堆操作方式2：时间复杂度为 O(nlogn) */
 // const h = new Heap()
 // h.push(9)
