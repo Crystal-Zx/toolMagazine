@@ -29,6 +29,7 @@ curr.right = new TreeNode(6)
 curr = root.right
 curr.left = new TreeNode(10)
 curr.right = new TreeNode(14)
+
 module.exports = {
   demoRoot: root,
 }
