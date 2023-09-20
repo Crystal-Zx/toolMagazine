@@ -1,4 +1,4 @@
-const createFib = require("./fibonacci")
+const createFib = require("../fibonacci")
 const fibArr = createFib(10)
 
 /**
