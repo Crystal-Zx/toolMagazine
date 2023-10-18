@@ -1,9 +1,21 @@
 // NOTE: 数组实现大顶堆
 class MaxHeap {
-  #maxHeap = []
+  #maxHeap = [] // # 表示私有属性
 
-  /* 建堆操作方式1：时间复杂度为 O(n) */
+  /**
+   * 建堆操作
+   * 「方法一」填充空堆：填充空堆是把元素依次入堆(插入堆底，然后自底向上冒泡到正确位置)（时间复杂度 O(nlogn)）
+   * 「方法二」整理无序堆：整理无序堆是将数组视为已建好的堆，从底部遍历非叶节点，把每个非叶结点代表的子堆整理成有序的堆（时间复杂度为 O(n)）
+   * @param {*} nums
+   */
   constructor(nums) {
+    // 「方法一」
+    // this.#maxHeap = []
+    // for (let num of nums) {
+    //   this.push(num)
+    // }
+
+    // 「方法二」
     this.#maxHeap = nums === undefined ? [] : [...nums]
     for (let i = this.#parent(this.size() - 1); i >= 0; --i) {
       this.#siftDown(i)
@@ -42,6 +54,9 @@ class MaxHeap {
     const tmp = this.#maxHeap[i]
     this.#maxHeap[i] = this.#maxHeap[j]
     this.#maxHeap[j] = tmp
+
+    // 或者利用解构简写为：
+    // ;[this.#maxHeap[i], this.#maxHeap[j]] = [this.#maxHeap[j], this.#maxHeap[i]]
   }
 
   /* 从下标为 i 的节点向上至根节点完成堆化 Heapify */
@@ -95,6 +110,15 @@ class MaxHeap {
     const val = this.#maxHeap.pop() // 将堆顶元素从堆中删除 O(1)
     this.#siftDown(0) // 从堆顶至底执行堆化
     return val
+
+    // 或者按照数组的 pop 方法，返回 undefined
+    // let val
+    // if (!this.isEmpty()) {
+    //   this.#swap(0, this.size() - 1)
+    //   val = this.#maxHeap.pop()
+    //   this.#siftDown(0)
+    // }
+    // return val
   }
 }
 
@@ -118,5 +142,5 @@ module.exports = MaxHeap
 // h.push(7)
 // console.log(h.print())
 
-// const h1 = new MaxHeap([9, 8, 6, 6, 7, 5, 2, 1, 4, 3, 6, 2])
-// console.log(h1.print())
+const h1 = new MaxHeap([9, 8, 6, 6, 7, 5, 2, 1, 4, 3, 6, 2])
+console.log(h1.print())
