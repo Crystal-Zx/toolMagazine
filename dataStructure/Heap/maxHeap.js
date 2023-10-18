@@ -118,5 +118,5 @@ module.exports = MaxHeap
 // h.push(7)
 // console.log(h.print())
 
-const h1 = new MaxHeap([9, 8, 6, 6, 7, 5, 2, 1, 4, 3, 6, 2])
-console.log(h1.print())
+// const h1 = new MaxHeap([9, 8, 6, 6, 7, 5, 2, 1, 4, 3, 6, 2])
+// console.log(h1.print())
