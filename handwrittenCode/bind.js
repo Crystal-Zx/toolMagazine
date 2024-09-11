@@ -81,3 +81,25 @@ function bar() {
   console.log(this.value)
 }
 foo.bar()
+
+// 另一种替代中转函数的写法
+Function.prototype._bind2 = function (thisArg) {
+  const self = this
+  if (typeof self !== "function") {
+    throw TypeError(
+      "Function.prototype.bind - what is trying to be bound is not callable"
+    )
+  }
+
+  const args = [].shift.call(arguments)
+
+  function fBound() {
+    const bindArgs = [...arguments]
+    return self.apply(this instanceof fBound ? this : thisArg, [
+      ...args,
+      bindArgs,
+    ])
+  }
+  fBound.prototype = Object.create(self.prototype)
+  return fBound
+}

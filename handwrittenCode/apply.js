@@ -19,7 +19,7 @@ Function.prototype._apply = function (context, arr) {
   for (var i = 0, len = arr.length; i < len; i++) {
     args.push("arr[" + i + "]")
   }
-  console.log(args, arr)
+  // console.log(args, arr)
   res = eval("context.fn(" + args + ")")
 
   delete context.fn

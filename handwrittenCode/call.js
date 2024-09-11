@@ -19,7 +19,7 @@ Function.prototype._call = function (context) {
   console.log("===arguments", arguments) // args 为数组
 
   // Object(context) 将 context 装箱，即如果 context 是原始类型则将其包装成对象
-  context = context ? Object(context) : window // 实现 2.1
+  context = context ? Object(context) : global // 实现 2.1
 
   // 将调用函数的值赋值给对象的属性，绑定 this 指向
   context.fn = this
@@ -46,8 +46,8 @@ function bar(name, age) {
   console.log("===this.value", this.value)
 }
 
-bar._call()
-// bar._call(foo, "kevin", 18)
+// bar._call()
+bar._call(foo, "kevin", 18)
 // kevin
 // 18
 // 1
