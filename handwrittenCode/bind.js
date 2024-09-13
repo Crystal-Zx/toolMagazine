@@ -11,7 +11,6 @@
  */
 Function.prototype._bind = function (context) {
   if (typeof this !== "function") {
-    console.log("====213")
     throw new Error(
       "Function.prototype.bind - what is trying to be bound is not a callable"
     )
@@ -40,6 +39,27 @@ Function.prototype._bind = function (context) {
   fBound.prototype = new fNOP()
   return fBound
 }
+// 另一种替代中转函数的写法
+Function.prototype._bind2 = function (thisArg) {
+  const self = this
+  if (typeof self !== "function") {
+    throw TypeError(
+      "Function.prototype.bind - what is trying to be bound is not callable"
+    )
+  }
+
+  const args = [].shift.call(arguments) ?? []
+
+  function fBound() {
+    const bindArgs = [...arguments]
+    return self.apply(this instanceof fBound ? this : thisArg, [
+      ...args,
+      bindArgs,
+    ])
+  }
+  fBound.prototype = Object.create(self.prototype)
+  return fBound
+}
 
 // 以下为功能测试代码：
 var value = 2
@@ -48,13 +68,13 @@ var foo = {
 }
 function bar(name, age) {
   // this.habit = 'shopping';
-  console.log(this.value)
-  console.log(name)
-  console.log(age)
-  return "bar excute over"
+  console.log("==> bar this.value", this.value)
+  console.log("==> bar name", name)
+  console.log("==> bar age", age)
+  return "bar execute over"
 }
 bar.prototype.friend = "kevin"
-var bindFoo = bar._bind(foo, "daisy")
+var bindFoo = bar._bind1(foo, "daisy")
 console.log("===bindFoo", bindFoo())
 console.log("===new绑定执行后：")
 var obj = new bindFoo("18")
@@ -71,35 +91,13 @@ console.log("===obj", obj.friend)
  * 当 context 为空时， bar.apply(foo) ===> 打印结果 1
  * 但是，事实是正确的打印结果是 2，即实际上执行的是： bar.apply(null)。在非严格模式下，调用函数 bar 的 this 指向为 null 时会自动指向全局。
  */
-var value = 2
-var foo = {
-  value: 1,
-  bar: bar.bind(null),
-  // bar: function () { console.log(this.value) }  // 1
-}
-function bar() {
-  console.log(this.value)
-}
-foo.bar()
-
-// 另一种替代中转函数的写法
-Function.prototype._bind2 = function (thisArg) {
-  const self = this
-  if (typeof self !== "function") {
-    throw TypeError(
-      "Function.prototype.bind - what is trying to be bound is not callable"
-    )
-  }
-
-  const args = [].shift.call(arguments)
-
-  function fBound() {
-    const bindArgs = [...arguments]
-    return self.apply(this instanceof fBound ? this : thisArg, [
-      ...args,
-      bindArgs,
-    ])
-  }
-  fBound.prototype = Object.create(self.prototype)
-  return fBound
-}
+// var value = 2
+// var foo = {
+//   value: 1,
+//   bar: bar.bind(null),
+//   // bar: function () { console.log(this.value) }  // 1
+// }
+// function bar() {
+//   console.log(this.value)
+// }
+// foo.bar()

@@ -38,6 +38,7 @@ function bar(name, age) {
 }
 
 bar._apply(foo, ["kevin", 18])
+bar._apply1(foo, ["kevin", 18])
 // kevin
 // 18
 // 1

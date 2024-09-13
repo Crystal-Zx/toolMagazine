@@ -48,6 +48,7 @@ function bar(name, age) {
 
 // bar._call()
 bar._call(foo, "kevin", 18)
+bar._call1(foo, "kevin", 18)
 // kevin
 // 18
 // 1

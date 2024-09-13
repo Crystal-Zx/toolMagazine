@@ -8,7 +8,7 @@
  * 2.4 若构造函数未返回其他对象，则 new 表达式中的函数调用会自动返回这个新对象
  */
 
-function objectFactory () {
+function objectFactory() {
   // 2.1 创建一个新对象
   var obj = Object.create()
   // 2.2 这个新对象会被执行 [[Prototype]] 连接
@@ -17,13 +17,13 @@ function objectFactory () {
   // 2.3 这个新对象会绑定到构造函数调用的 this
   var res = Constructor.apply(obj, arguments)
   // 2.4 若构造函数未返回其他对象，则 new 表达式中的函数调用会自动返回这个新对象
-  return (typeof res === 'object' && res !== null) ? res : obj
+  return typeof res === "object" && res !== null ? res : obj
 }
 
 // 优化版本
-function objectFactory1 () {
+function objectFactory1() {
   var Constructor = [].shift.call(arguments)
-  var obj = Object.create(Constructor.prototype)  // 等同于 obj.__proto___ = Constructor.prototype
+  var obj = Object.create(Constructor.prototype) // 等同于 obj.__proto___ = Constructor.prototype
   var res = Constructor.apply(obj, arguments)
-  return (typeof res === 'object' && res !== null) ? res : obj
+  return typeof res === "object" && res !== null ? res : obj
 }
