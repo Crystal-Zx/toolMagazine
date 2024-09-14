@@ -1,5 +1,5 @@
 /**
- * nOTE: 二叉树层序遍历（基于广度优先搜索 BFS 实现）
+ * NOTE: 二叉树层序遍历（基于广度优先搜索 BFS 实现）
  * @param {*} root 二叉树根节点
  * @returns {Array} res 层序遍历节点值组成的数组
  *
