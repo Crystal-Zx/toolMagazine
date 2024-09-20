@@ -50,12 +50,12 @@ function deepClone1(target, map = new WeakMap()) {
   // 2. 初始化
   let cloneTarget
   const type = typeJudge(target)
-  // -- 获取可遍历类型的新实例对象
-  if (deepTargets.includes(type)) {
-    cloneTarget = getInitial(target)
-  } else {
+  // -- 不可遍历类型额外处理
+  if (!deepTargets.includes(type)) {
     return cloneOtherType(target, type)
   }
+  // -- 获取可遍历类型的新实例对象
+  cloneTarget = getInitial(target)
 
   // 3. 防止循环引用
   if (map.get(target)) return map.get(target)
