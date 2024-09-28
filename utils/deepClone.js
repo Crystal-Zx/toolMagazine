@@ -6,8 +6,7 @@ function isObject(target) {
   return target !== null && (type === "object" || type === "function")
 }
 function getInitial(target) {
-  const Ctor = target.constructor
-  return new Ctor()
+  return Object.create(target.constructor.prototype)
 }
 function cloneReg(target) {
   const reFlags = /\w*$/
@@ -99,7 +98,7 @@ const target = {
   field1: 1,
   field2: undefined,
   field3: {
-    child: "child",
+    child: "child"
   },
   field4: [2, 4, 8],
   empty: null,
@@ -111,7 +110,7 @@ const target = {
   symbol: Object(Symbol(1)),
   date: new Date(),
   reg: /\d+/,
-  error: new Error(),
+  error: new Error()
   // 暂时未考虑函数的深拷贝
   // func1: () => {
   //   console.log("code秘密花园")
