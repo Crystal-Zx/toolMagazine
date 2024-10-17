@@ -2,7 +2,7 @@
 let range = {
   from: 1,
   to: 5
-};
+}
 
 // 1. for..of 调用首先会调用这个：
 // range[Symbol.iterator] = function () {
@@ -42,9 +42,19 @@ range[Symbol.iterator] = function* () {
     yield num
   }
 }
+// -- 直接定义在可迭代对象内部
+let range1 = {
+  from: 1,
+  to: 5,
 
-// TEST:
-for (let num of range) {
-  console.log("🚀 ~ num:", num)
+  *[Symbol.iterator]() {
+    for (let i = this.from; i <= this.to; i++) {
+      yield i
+    }
+  }
 }
 
+// TEST:
+for (let num of range1) {
+  console.log("🚀 ~ num:", num)
+}

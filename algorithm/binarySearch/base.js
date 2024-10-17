@@ -35,7 +35,7 @@ function lowerBound2(nums, target) {
       right = mid // [left, mid)
     }
   }
-  return left
+  return left // right 也可
 }
 console.log("==> lowerBound2", lowerBound2([5, 7, 7, 8, 8, 10], 8))
 
@@ -99,5 +99,5 @@ console.log("==> searchRange", searchRange([5, 7, 7, 8, 8, 10], 8))
 console.log("==> searchRange", searchRange([5, 7, 7, 8, 8, 10], 6))
 
 module.exports = {
-  lowerBound3,
+  lowerBound3
 }
