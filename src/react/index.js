@@ -82,7 +82,7 @@ const React = {
 // console.log('🚀 ~ vdom:', vdom)
 // React.render(vdom, document.getElementById('root'))
 
-/** ---------------------------------------------------------------------------------- */
+/** ---------------------------------- Fiber 调和阶段 ------------------------------------------------ */
 /** NOTE: 「STEP TWO」利用 Fiber 架构实现任务切片
  * 利用浏览器原生 API requestIdleCallback 来实现任务切片
  */
@@ -272,11 +272,11 @@ function reconcileChildren(wipFiber, elements) {
   }
 }
 
-/** ---------------------------------------------------------------------------------- */
+/** ------------------------------------ 提交渲染 ---------------------------------------------- */
 function commitRoot() {
   // commitWork(deletions[0])
   deletions.forEach(commitWork) // 清除标记为 EffectTag.DELETION 的 fiber 节点
-  flag && commitWork(wipRoot.child) // 提交当前的工作根，进行其子节点的 Fiber 提交（！！注意这里是 wipRoot.child 而非 wipRoot 本身，它指代的真实 DOM 是 render 挂载的 container 元素）
+  commitWork(wipRoot.child) // 提交当前的工作根，进行其子节点的 Fiber 提交（！！注意这里是 wipRoot.child 而非 wipRoot 本身，它指代的真实 DOM 是 render 挂载的 container 元素）
   currentRoot = wipRoot // 将当前工作根保存为旧的工作根（双渲染机制，能够更好的进行复用）
   wipRoot = null // 清空当前工作根
 }
@@ -296,7 +296,8 @@ function commitWork(fiber) {
     case EffectTag.Deletion:
       console.log('🚀 ~ commitWork ~ Deletion:', parentDom, fiber)
       parentDom.removeChild(fiber.dom)
-      break
+      return
+    // break
     default:
       break
   }

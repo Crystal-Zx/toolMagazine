@@ -1,0 +1,8 @@
+{
+  "name": "toolMagazine",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Crystal-Zx/toolMagazine.git",
+  "author": "zx",
+  "license": "MIT"
+}

@@ -88,7 +88,7 @@ class MinHeap {
   pop() {
     // 判空
     if (this.isEmpty()) {
-      throw new Error("堆为空")
+      throw new Error('堆为空')
     }
     this.#swap(0, this.size() - 1) // 交换堆顶与最底层最右边叶节点
     const val = this.#minHeap.pop() // 将堆顶元素从堆中删除 O(1)
