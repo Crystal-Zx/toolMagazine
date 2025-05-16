@@ -6,12 +6,14 @@
  */
 function throttleTimeout(fn, wait) {
   let timer
-  return function () {
+  return function (...args) {
     if (timer) return
-    setTimeout(() => {
-      fn.apply(this, arguments)
-      timer = null
-    }, wait)
+    return new Promise(resolve => {
+      timer = setTimeout(() => {
+        resolve(fn.apply(this, args))
+        timer = null
+      }, wait)
+    })
   }
 }
 

@@ -9,7 +9,7 @@
 function debounce(fn, wait, immediate) {
   let timer, res
   return function () {
-    if (timer) clearTimeout(timer)
+    if (timer) clearTimeout(timer) // 清除上一个定时器，但没有修改 timer
     if (immediate) {
       let callNow = !timer
       if (callNow) {
@@ -120,12 +120,12 @@ function debounce2(fn, wait, immediate) {
   return debounced
 }
 
-var a = "global"
+var a = 'global'
 function f() {
-  var a = "inner f"
+  var a = 'inner f'
   console.log(this.a)
 }
 const df = debounce2(f, 2000)
 
-var o = { a: "obj", df }
+var o = { a: 'obj', df }
 o.df()
