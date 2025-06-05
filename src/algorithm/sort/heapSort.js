@@ -1,4 +1,4 @@
-const swap = require("./swap")
+const swap = require('./swap')
 
 /**
  * NOTE: 堆排序：利用大顶堆的出堆操作稍作改动完成排序
@@ -11,9 +11,13 @@ function heapSort(nums) {
     siftDown(nums, i)
   }
   // 执行出堆操作（执行 len - 1 次）
-  while (len > 1) {
-    swap(nums, 0, len - 1)
-    siftDown(nums, 0, --len) // 花费时间 O(logn)
+  // while (len > 1) {
+  //   swap(nums, 0, len - 1)
+  //   siftDown(nums, 0, --len) // 花费时间 O(logn)
+  // }
+  for (let i = len - 1; i >= 0; i--) {
+    swap(nums, 0, i)
+    siftDown(nums, 0, i)
   }
   return nums
 }
@@ -32,16 +36,14 @@ function siftDown(nums, i, len = nums.length) {
     r = l + 1
     max = i
 
-    if (l < len && nums[l] > nums[i] && nums[l] > nums[r]) max = l
-    if (r < len && nums[r] > nums[i] && nums[r] > nums[l]) max = r
+    if (l < len && nums[l] > nums[max]) max = l
+    if (r < len && nums[r] > nums[max]) max = r
 
     if (max === i) break
 
     swap(nums, i, max)
     i = max
   }
-
-  swap(nums, i, max)
 }
 
 /**
@@ -53,4 +55,5 @@ function siftDown(nums, i, len = nums.length) {
  *
  * NOTE: 与大顶堆的出栈唯一不同的是，大顶堆出栈是直接弹出元素，若采用这种方法来排序，需要借助一个辅助栈来存弹出的元素。但堆排序这里仅仅是将堆顶元素放置到数组末尾，并且将堆长度减一来实现原地排序。
  */
-console.log(heapSort([3, 4, 5, 1, 1, 2]))
+// console.log(heapSort([3, 4, 5, 1, 1, 2]))
+console.log(heapSort([25, 32, 4, 1, 34, 10, 51, 29]))
