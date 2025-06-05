@@ -7,12 +7,7 @@
  * @param {number} [decimalPoint=2] The number of decimal point.
  * @returns {number} The size of file in the converted unit.
  */
-export default function convertFileSize(
-  size,
-  fromUnit,
-  toUnit,
-  decimalPoint = 2
-) {
+function convertFileSize(size, fromUnit, toUnit, decimalPoint = 2) {
   const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
 
   // 抹平大小写，并检查单位是否合法
