@@ -1,4 +1,4 @@
-const swap = require("./swap")
+const swap = require('./swap')
 
 /**
  * NOTE: 快速排序：
@@ -12,18 +12,20 @@ const swap = require("./swap")
  */
 function quickSort(nums, left = 0, right = nums.length - 1) {
   // 递归终止条件
-  if (left >= right) return
-  // 哨兵划分
-  const pivot = partition(nums, left, right)
-  // 递归地对左子数组和右子数组进行快速排序
-  // NOTE: 优化策略二：尾递归优化，每次仅对更短的子数组做快排，保证其数组长度不超过 n / 2，将最差空间复杂度降至 O(logn)
-  if (pivot - left < right - pivot) {
-    // 左子数组长度更短，对它进行快排
-    quickSort(nums, left, pivot - 1)
-    left = pivot + 1 // 剩余未排序区间为 [pivot + 1, right]
-  } else {
-    quickSort(nums, pivot + 1, right)
-    right = pivot - 1 // 剩余未排序区间为 [left, pivot - 1]
+  // if (left >= right) return
+  while (left < right) {
+    // 哨兵划分
+    const pivot = partition(nums, left, right)
+    // 递归地对左子数组和右子数组进行快速排序
+    // NOTE: 优化策略二：尾递归优化，每次仅对更短的子数组做快排，保证其数组长度不超过 n / 2，将最差空间复杂度降至 O(logn)
+    if (pivot - left < right - pivot) {
+      // 左子数组长度更短，对它进行快排
+      quickSort(nums, left, pivot - 1)
+      left = pivot + 1 // 剩余未排序区间为 [pivot + 1, right]
+    } else {
+      quickSort(nums, pivot + 1, right)
+      right = pivot - 1 // 剩余未排序区间为 [left, pivot - 1]
+    }
   }
 }
 
@@ -34,14 +36,14 @@ function partition(nums, left, right) {
   // 以 left 下标对应的值作为基准数（NOTE: 交换后已经是首尾中三数中的中位数了，降低时间复杂度劣化风险）
   let i = left,
     j = right
-  // NOTE: 当我们以最左端元素为基准数时，必须先“从右往左”再”从左往右“
+  // NOTE: 当我们以最左端元素为基准数时，必须先“从右往左”再”从左往右“，原因是：先向前移动 j，再向后移动 i，这能保证两指针相遇时指向的一定是小于哨兵节点值的数，这才能在循环结束时交换相遇节点和哨兵节点，保证排序次序
   while (i < j) {
     while (i < j && nums[j] >= nums[left]) j--
     while (i < j && nums[i] <= nums[left]) i++
     swap(nums, i, j)
   }
-  swap(nums, left, i)
-  return i
+  swap(nums, left, j)
+  return j
 }
 
 // NOTE: 优化策略一：优化基准数选取（增大随机性，避免逆序数组劣化风险）
