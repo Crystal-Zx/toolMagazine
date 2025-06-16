@@ -10,9 +10,9 @@
  * 3.2 bind 返回的函数称为绑定函数，它也能通过 new 操作符创建对象，而 new 绑定的对象会将 this 指向生成的实例对象。此时，bind 返回的绑定函数会丢失 this 值。需要注意的是，这个 new 生成的实例对象可以通过原型链访问到调用函数（即 bind 的调用函数）原型链上的属性和方法，故需要再手写中处理好此点。
  */
 Function.prototype._bind = function (context) {
-  if (typeof this !== "function") {
+  if (typeof this !== 'function') {
     throw new Error(
-      "Function.prototype.bind - what is trying to be bound is not a callable"
+      'Function.prototype.bind - what is trying to be bound is not a callable'
     )
   }
   var self = this
@@ -42,9 +42,9 @@ Function.prototype._bind = function (context) {
 // 另一种替代中转函数的写法
 Function.prototype._bind2 = function (thisArg) {
   const self = this
-  if (typeof self !== "function") {
+  if (typeof self !== 'function') {
     throw TypeError(
-      "Function.prototype.bind - what is trying to be bound is not callable"
+      'Function.prototype.bind - what is trying to be bound is not callable'
     )
   }
 
@@ -54,9 +54,13 @@ Function.prototype._bind2 = function (thisArg) {
     const bindArgs = [...arguments]
     return self.apply(this instanceof fBound ? this : thisArg, [
       ...args,
-      bindArgs,
+      bindArgs
     ])
   }
+  /**
+   * const newObj = Object.create(obj) 以 obj 为原型创建新的对象
+   * Object.getPrototypeOf(newObj) === obj
+   */
   fBound.prototype = Object.create(self.prototype)
   return fBound
 }
@@ -64,21 +68,21 @@ Function.prototype._bind2 = function (thisArg) {
 // 以下为功能测试代码：
 var value = 2
 var foo = {
-  value: 1,
+  value: 1
 }
 function bar(name, age) {
   // this.habit = 'shopping';
-  console.log("==> bar this.value", this.value)
-  console.log("==> bar name", name)
-  console.log("==> bar age", age)
-  return "bar execute over"
+  console.log('==> bar this.value', this.value)
+  console.log('==> bar name', name)
+  console.log('==> bar age', age)
+  return 'bar execute over'
 }
-bar.prototype.friend = "kevin"
-var bindFoo = bar._bind1(foo, "daisy")
-console.log("===bindFoo", bindFoo())
-console.log("===new绑定执行后：")
-var obj = new bindFoo("18")
-console.log("===obj", obj.friend)
+bar.prototype.friend = 'kevin'
+var bindFoo = bar._bind1(foo, 'daisy')
+console.log('===bindFoo', bindFoo())
+console.log('===new绑定执行后：')
+var obj = new bindFoo('18')
+console.log('===obj', obj.friend)
 
 /**
  * WARNING: 关于旧版（2018年3月之前）的MDN上关于 apply 实现这一块加上对 context 的判断：

@@ -79,8 +79,9 @@ function debounce2(fn, wait, immediate) {
   return function () {
     const context = this
     const args = arguments
-    if (timer) clearTimeout(timer)
+    if (timer) clearTimeout(timer) // timer 有值说明非第一次调用，统一先清除上一次的定时器
     if (immediate) {
+      // 立即触发
       const callNow = !timer
       timer = setTimeout(() => {
         timer = null
