@@ -13,32 +13,60 @@ class MyPromise {
     FULFILLED: 'FULFILLED',
     REJECTED: 'REJECTED'
   }
-  #onResolvedCallbacks = []
-  #onRejectedCallbacks = []
+  #onResolvedCallbacks
+  #onRejectedCallbacks
 
   constructor(executor) {
     this.status = this.#StatusMap.PENDING
     this.value = undefined
+    this.#onResolvedCallbacks = []
+    this.#onRejectedCallbacks = []
 
+    /**
+     * NOTE: 关于 value 不同类型的处理说明
+     * 1. value 为 Thenable 对象，resolve 内部会尝试调用 Thenable 对象的 then 方法，并将 resolve 和 reject 作为参数传递给 then 方法。
+     *  - 如果 .then 内部返回一个值，则该值作为 resolve 的 value 兑现当前 Promise
+     *  - 如果 .then 内部抛出异常，则异常值作为 reject 的 reason 兑现当前 Promise
+     * 2. value 为另一个 Promise 实例，则当前 Promise 等待该实例兑现后以它的结果作为自己的结果兑现
+     * @param {Promise | primitive value | Thenable} value
+     * @returns
+     */
     const resolve = value => {
-      // console.log('--- constructor executor resolve', value)
       if (this.status !== this.#StatusMap.PENDING) return
+
+      // 处理 Thenable 对象
+      if (value !== null && ['object', 'function'].includes(typeof value)) {
+        try {
+          const then = value?.then
+          if (typeof then === 'function') {
+            then.call(value, resolve, reject)
+            return
+          }
+          // 如果没有 .then 方法则视为普通值进入正常流程
+        } catch (e) {
+          reject(e)
+          return
+        }
+      }
+
+      // 正常流程
       this.status = this.#StatusMap.FULFILLED
-      this.value = value // TODO: 待补充对 Thenable 对象的处理
+      this.value = value
 
       // 清空存储的先行成功回调
       while (this.#onResolvedCallbacks.length) {
-        this.#onResolvedCallbacks.shift()(value)
+        this.#onResolvedCallbacks.shift()(/**value*/) // NOTE: 此处可不传 value，因为 resolvePromise 内部调用 cb 时直接访问的当前实例的 value，即 this.value
       }
     }
     const reject = reason => {
       if (this.status !== this.#StatusMap.PENDING) return
+
       this.status = this.#StatusMap.REJECTED
       this.value = reason
 
       // 清空存储的先行失败回调
       while (this.#onRejectedCallbacks.length) {
-        this.#onRejectedCallbacks.shift()(reason)
+        this.#onRejectedCallbacks.shift()(/**reason*/)
       }
     }
 
@@ -104,13 +132,12 @@ class MyPromise {
     return this.then(null, onRejected)
   }
 
-  // NOTE: finally 需要将上一个 .then/.catch 的结果值向下传递，故不能直接 return this.then(cb, cb)，会丢失值
+  // NOTE: finally 需要「值穿透」即：将上一个 .then/.catch 的结果值向下传递，故不能直接 return this.then(cb, cb)，会丢失值
   finally = cb => {
-    // return this.then(cb, cb)
     return this.then(
       value => MyPromise.resolve(cb()).then(() => value),
       reason =>
-        MyPromise.resolve(cb).then(() => {
+        MyPromise.resolve(cb()).then(() => {
           throw reason
         })
     )
@@ -128,7 +155,7 @@ class MyPromise {
     if (value instanceof MyPromise) {
       return value
     }
-    return new MyPromise((resolve, reject) => {
+    return new MyPromise(resolve => {
       // 包含 Thenable 的处理
       resolve(value)
     })
@@ -248,6 +275,7 @@ class MyPromise {
   }
 }
 module.exports = MyPromise
+
 // TEST: 测试初始化、链式调用
 // const p1 = new MyPromise((resolve, reject) => {
 //   console.log('--- p1 executor')
